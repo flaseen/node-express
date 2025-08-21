@@ -82,14 +82,14 @@ pipeline {
             emailext(
                 subject: "SUCCESS: ${currentBuild.fullDisplayName}",
                 body: "Good news! The build succeeded.\n\nSee details: ${env.BUILD_URL}",
-                to: 'jyakub@digisoft.co.ke'
+                to: 'mwambeyu.jnr@gmail.com, jyakub@digisoft.co.ke'
             )
         }
         failure {
             emailext(
                 subject: "FAILURE: ${currentBuild.fullDisplayName}",
                 body: "Build failed. Check logs: ${env.BUILD_URL}",
-                to: 'jyakub@digisoft.co.ke'
+                to: 'mwambeyu.jnr@gmail.com, jyakub@digisoft.co.ke'
             )
         }
     } 
