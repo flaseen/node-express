@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    container_name: express-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - .:/app # Mount source code (for dev)
+      - /app/node_modules # Prevent overwriting node_modules
+    command: npm run dev # Use nodemon in dev mode
