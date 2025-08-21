@@ -20,3 +20,10 @@ coverage
 .gitignore
 .vscode
 .idea
+
+# Ignore logs
+logs
+*.log
+
+# Ignore temporary files
+tmp
