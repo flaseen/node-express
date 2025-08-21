@@ -7,6 +7,7 @@ yarn-error.log
 # Ignore local env & secrets
 .env
 .env.local
+.env.example
 .env.*.local
 
 # Ignore build output
@@ -20,6 +21,13 @@ coverage
 .gitignore
 .vscode
 .idea
+
+# Ignore Docker-related files
+Dockerfile* 
+docker-compose*.yml
+
+# Jenkins-related files
+Jenkinsfile
 
 # Ignore logs
 logs
