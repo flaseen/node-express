@@ -10,5 +10,5 @@ services:
       - NODE_ENV=development
       - PORT=3000
     volumes:
-      - .:/app # Mount source code (for dev)
+      - ./src:/app/src # Mount source code (for dev)
       - /app/node_modules # Prevent overwriting node_modules
