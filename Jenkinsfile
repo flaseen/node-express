@@ -1,39 +1,56 @@
 pipeline {
     agent any
-
+    
+    tools {
+        nodejs "Node21.7"
+    }
+    
     environment {
-        DOCKER_IMAGE = "my-express-app"
-        DOCKER_TAG = "latest"
+        DOCKER_IMAGE = "node-express-app"
+        DOCKER_TAG   = "build-${env.BUILD_NUMBER}"
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+        PUSH_TO_REGISTRY = 'true'
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
+        stage('Github Checkout') {
+             steps {
+                git branch: 'main',
+                    url: 'https://github.com/flaseen/node-express.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                sh 'npm install'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npm test || echo "⚠️ No tests found"'
+                sh 'npm test || echo "No tests found"'
+            }
+        }
+
+        stage('Check Docker') {
+            steps {
+                sh 'docker --version'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
+                 sh '''
+                    docker build --pull --no-cache \
+                        -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
+                        -t ${DOCKER_IMAGE}:latest .
+                    '''
             }
         }
 
-        stage('Push to Registry') {
+        stage('Push to Dockerhub or Container Registry') {
             when {
-                branch 'main'
+                environment name: 'PUSH_TO_REGISTRY', value: 'true'
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -45,12 +62,9 @@ pipeline {
         }
 
         stage('Deploy') {
-            when {
-                branch 'main'
-            }
             steps {
-                sh 'docker-compose -f docker-compose.prod.yml down || true'
-                sh 'docker-compose -f docker-compose.prod.yml up -d --build'
+                sh 'docker compose down -v'
+                sh 'docker compose build --no-cache && docker compose up -d'
             }
         }
     }
