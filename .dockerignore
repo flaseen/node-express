@@ -5,10 +5,7 @@ yarn-error.log
 .pnpm-store
 
 # Ignore local env & secrets
-.env
-.env.local
-.env.example
-.env.*.local
+.env*
 
 # Ignore build output
 dist
@@ -23,6 +20,7 @@ coverage
 .idea
 
 # Ignore Docker-related files
+.dockerignore
 Dockerfile* 
 docker-compose*.yml
 
