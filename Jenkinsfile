@@ -1,20 +1,20 @@
 pipeline {
     agent any
-    
+
     tools {
-        nodejs "Node21.7"
+        nodejs 'Node21.7'
     }
-    
+
     environment {
-        DOCKER_IMAGE = "node-express-app"
+        DOCKER_IMAGE = 'node-express-app'
         DOCKER_TAG   = "build-${env.BUILD_NUMBER}"
-        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+        PATH = '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
         PUSH_TO_REGISTRY = 'true'
     }
 
     stages {
         stage('Github Checkout') {
-             steps {
+            steps {
                 git branch: 'main',
                     url: 'https://github.com/flaseen/node-express.git'
             }
@@ -40,7 +40,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                 sh '''
+                sh '''
                     docker build --pull --no-cache \
                         -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
                         -t ${DOCKER_IMAGE}:latest .
@@ -61,7 +61,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy on Docker') {
             steps {
                 sh 'docker compose down -v'
                 sh 'docker compose build --no-cache && docker compose up -d'
@@ -71,7 +71,25 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline finished!"
+            slackSend(
+                channel: '#ci-cd-workflows', 
+                color: currentBuild.currentResult == 'SUCCESS' ? 'good' : 'danger',
+                message: "Build ${currentBuild.fullDisplayName} finished: ${currentBuild.currentResult}.\n${env.BUILD_URL}"
+            )
         }
-    }
+        success {
+            emailext(
+                subject: "SUCCESS: ${currentBuild.fullDisplayName}",
+                body: "Good news! The build succeeded.\n\nSee details: ${env.BUILD_URL}",
+                to: 'mwambeyu.jnr@gmail.com'
+            )
+        }
+        failure {
+            emailext(
+                subject: "FAILURE: ${currentBuild.fullDisplayName}",
+                body: "Build failed. Check logs: ${env.BUILD_URL}",
+                to: 'mwambeyu.jnr@gmail.com'
+            )
+        }
+    } 
 }
