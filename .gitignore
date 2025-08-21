@@ -1,0 +1,51 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage (nyc, istanbul, jest, etc.)
+coverage
+*.lcov
+
+# Build output
+dist
+build
+tmp
+temp
+
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE / Editor stuff
+.vscode/
+.idea/
+*.swp
+
+# OS / Misc
+.DS_Store
+Thumbs.db
+
+# Optional caches
+.npm
+.eslintcache
+.cache
+.parcel-cache
+
+# Docker
+docker-compose.override.yml

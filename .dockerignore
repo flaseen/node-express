@@ -1,0 +1,22 @@
+# Ignore dependencies & caches
+node_modules
+npm-debug.log
+yarn-error.log
+.pnpm-store
+
+# Ignore local env & secrets
+.env
+.env.local
+.env.*.local
+
+# Ignore build output
+dist
+build
+coverage
+
+# Ignore system files
+.DS_Store
+.git
+.gitignore
+.vscode
+.idea
