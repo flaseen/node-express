@@ -1,12 +1,8 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: express-app-prod
+    image: ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}
+    container_name: express-app
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-    restart: always
+    env_file:
+      - .env
