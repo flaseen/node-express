@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        stage('Push to Dockerhub or Container Registry') {
+        stage('Push to Dockerhub or Container Registry Of Choice') {
             when {
                 environment name: 'PUSH_TO_REGISTRY', value: 'true'
             }
