@@ -82,6 +82,12 @@ pipeline {
             }
         }
 
+        stage('Prepare Env File') {
+            steps {
+                sh 'cp .env.example .env'
+            }
+        }
+
         stage('Deploy on Docker') {
             steps {
                 script {
