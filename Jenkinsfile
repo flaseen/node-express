@@ -10,7 +10,7 @@ pipeline {
         DOCKER_TAG       = "v${env.BUILD_NUMBER}"
         PATH             = '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
         PUSH_TO_REGISTRY = 'true'
-        APP_ENV          = 'dev'
+        APP_ENV          = 'prod'
     }
 
     stages {
@@ -98,7 +98,7 @@ pipeline {
                         exit 1
                         fi
                     '''
-                    
+
                     if (env.APP_ENV == 'dev') {
                         // Dev: rebuild & run with docker-compose.dev.yml
                         sh '''
