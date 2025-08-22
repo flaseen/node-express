@@ -91,6 +91,14 @@ pipeline {
         stage('Deploy on Docker') {
             steps {
                 script {
+                    // Fail if .env is missing
+                    sh '''
+                        if [ ! -f .env ]; then
+                        echo ".env file is missing! Did you run the Prepare Env File stage?"
+                        exit 1
+                        fi
+                    '''
+                    
                     if (env.APP_ENV == 'dev') {
                         // Dev: rebuild & run with docker-compose.dev.yml
                         sh '''
