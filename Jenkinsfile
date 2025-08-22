@@ -10,6 +10,7 @@ pipeline {
         DOCKER_TAG       = "v${env.BUILD_NUMBER}"
         PATH             = '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
         PUSH_TO_REGISTRY = 'true'
+        APP_ENV          = 'dev'
     }
 
     stages {
@@ -40,31 +41,69 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh '''
-                    docker build --pull --no-cache \
-                        -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
-                        -t ${DOCKER_IMAGE}:latest .
-                    '''
+                script {
+                    if (env.APP_ENV == 'dev') {
+                        sh '''
+                            docker compose -f docker-compose.dev.yml build
+                        '''
+                    } else {
+                        sh '''
+                            docker build --pull --no-cache \
+                                -t ${DOCKER_IMAGE}:${DOCKER_TAG} \
+                                -t ${DOCKER_IMAGE}:latest .
+                        '''
+                    }
+                }
             }
         }
 
         stage('Push to Dockerhub or Container Registry Of Choice') {
+            // Only push if in prod and PUSH_TO_REGISTRY is true
             when {
-                environment name: 'PUSH_TO_REGISTRY', value: 'true'
+                allOf {
+                    environment name: 'PUSH_TO_REGISTRY', value: 'true'
+                    expression { env.APP_ENV == 'prod' }
+                }
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-                    sh 'docker tag $DOCKER_IMAGE:$DOCKER_TAG $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG'
-                    sh 'docker push $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG'
+                    sh '''
+                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+
+                        # Push versioned tag
+                        docker tag $DOCKER_IMAGE:$DOCKER_TAG $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG
+                        docker push $DOCKER_USER/$DOCKER_IMAGE:$DOCKER_TAG
+
+                        # Push latest tag
+                        docker tag $DOCKER_IMAGE:latest $DOCKER_USER/$DOCKER_IMAGE:latest
+                        docker push $DOCKER_USER/$DOCKER_IMAGE:latest
+                    '''
                 }
             }
         }
 
         stage('Deploy on Docker') {
             steps {
-                sh 'docker compose down -v'
-                sh 'docker compose build --no-cache && docker compose up -d'
+                script {
+                    if (env.APP_ENV == 'dev') {
+                        // Dev: rebuild & run with docker-compose.dev.yml
+                        sh '''
+                            docker compose -f docker-compose.dev.yml down
+                            docker compose -f docker-compose.dev.yml up -d --build
+                        '''
+                    } else {
+                        // Prod: pull pushed image & run with docker-compose.prod.yml
+                        sh '''
+                            export DOCKER_USER=$DOCKER_USER
+                            export DOCKER_IMAGE=$DOCKER_IMAGE
+                            export DOCKER_TAG=$DOCKER_TAG
+
+                            docker compose -f docker-compose.prod.yml down
+                            docker compose -f docker-compose.prod.yml pull
+                            docker compose -f docker-compose.prod.yml up -d
+                        '''
+                    }
+                }
             }
         }
     }
