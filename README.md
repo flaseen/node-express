@@ -14,14 +14,14 @@ A simple **Node.js + Express** starter project. This application provides a REST
 ## 📦 Features
 - Express.js server
 - REST API example (`/api/health`)
-- Docker-ready
 - Environment variables via `.env`
+- CI/CD Integration using Jenkins & Docker
 
 ---
 
 ## 🛠️ Installation
 ```bash
-git clone https://github.com/flaseen/node-express-devops.git
+git clone https://github.com/flaseen/node-express.git
 cd your-repo
 npm install
 ```
