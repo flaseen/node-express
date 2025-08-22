@@ -107,15 +107,24 @@ pipeline {
                         '''
                     } else {
                         // Prod: pull pushed image & run with docker-compose.prod.yml
-                        sh '''
-                            export DOCKER_USER=$DOCKER_USER
-                            export DOCKER_IMAGE=$DOCKER_IMAGE
-                            export DOCKER_TAG=$DOCKER_TAG
+                        sh """
+                            echo "Deploying image: ${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
 
+                            DOCKER_USER=${DOCKER_USER} \
+                            DOCKER_IMAGE=${DOCKER_IMAGE} \
+                            DOCKER_TAG=${DOCKER_TAG} \
                             docker compose -f docker-compose.prod.yml down
+
+                            DOCKER_USER=${DOCKER_USER} \
+                            DOCKER_IMAGE=${DOCKER_IMAGE} \
+                            DOCKER_TAG=${DOCKER_TAG} \
                             docker compose -f docker-compose.prod.yml pull
+
+                            DOCKER_USER=${DOCKER_USER} \
+                            DOCKER_IMAGE=${DOCKER_IMAGE} \
+                            DOCKER_TAG=${DOCKER_TAG} \
                             docker compose -f docker-compose.prod.yml up -d
-                        '''
+                        """
                     }
                 }
             }
