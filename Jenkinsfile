@@ -6,6 +6,7 @@ pipeline {
     }
 
     environment {
+        DOCKER_USER      = credentials('dockerhub-user')
         DOCKER_IMAGE     = 'node-express-app'
         DOCKER_TAG       = "v${env.BUILD_NUMBER}"
         PATH             = '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
