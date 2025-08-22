@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/your-username/your-repo)](https://github.com/your-username/your-repo/issues)  
 [![GitHub stars](https://img.shields.io/github/stars/your-username/your-repo?style=social)](https://github.com/your-username/your-repo/stargazers)  
 
-A simple **Node.js + Express** starter project. This application provides a REST API and can be run locally or inside Docker.  
+A simple **Node.js + Express** starter project. This application provides a REST API and can be run locally or inside a Docker Container.
 
 ---
 
