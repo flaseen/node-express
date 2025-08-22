@@ -7,7 +7,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE     = 'node-express-app'
-        // DOCKER_TAG       = "build-${env.BUILD_NUMBER}"
         DOCKER_TAG       = "v${env.BUILD_NUMBER}"
         PATH             = '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
         PUSH_TO_REGISTRY = 'false'
