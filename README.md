@@ -61,8 +61,8 @@ NODE_ENV=development
 
 ## 🐳 Run with Docker
 ```bash
-docker build -t my-express-app .
-docker run -p 3000:3000 my-express-app
+docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.dev.yml up -d --build
 ```
 
 ---
@@ -82,8 +82,12 @@ npm test
 │   ├── routes/         # Express routes
 │   └── controllers/    # Route handlers
 ├── .env.example
+├── .dockerignore
 ├── .gitignore
+├── docker-compose.dev.yml
+├── docker-compose.prod.yml
 ├── Dockerfile
+├── Jenkinsfile
 ├── package.json
 └── README.md
 ```
