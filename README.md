@@ -15,7 +15,7 @@ A simple **Node.js + Express** starter project. This application provides a REST
 - Express.js server
 - REST API example (`/api/health`)
 - Environment variables via `.env`
-- CI/CD Integration using Jenkins & Docker
+- CI/CD Integration using GitHub, Jenkins & Docker
 
 ---
 
@@ -88,7 +88,9 @@ npm test
 ├── docker-compose.prod.yml
 ├── Dockerfile
 ├── Jenkinsfile
+├── package-lock.json
 ├── package.json
+├── LICENSE
 └── README.md
 ```
 
