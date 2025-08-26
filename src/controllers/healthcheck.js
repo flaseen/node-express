@@ -10,7 +10,6 @@ export const healthCheck = async (req = request, res = response) => {
     });
   } catch (error) {
     res.status(500).json({
-      success: false,
       statusCode: 500,
       message: `Internal server error: ${error}`,
     });
