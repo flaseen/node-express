@@ -13,8 +13,8 @@ app.use(express.json()); // Use JSON Body Parser Middleware
 app.use(cookieParser()); // Use Cookie Parser Middleware
 
 // API Routes
-app.use('/', welcome);
-app.use('/api/health', healthCheck);
+app.use("/", welcome);
+app.use("/api/health", healthCheck);
 // END of API Routes
 
 app.listen(port, () => {
