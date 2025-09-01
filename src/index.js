@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.APP_PORT || 3000;
 
 // App Level Middlewares
-app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Use & Enable CORS for all routes
+app.use(cors({ origin: `http://localhost:${port}`, credentials: true })); // Use & Enable CORS for all routes
 app.use(express.json()); // Use JSON Body Parser Middleware
 app.use(cookieParser()); // Use Cookie Parser Middleware
 
