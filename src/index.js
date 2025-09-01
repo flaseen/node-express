@@ -31,7 +31,6 @@ app.use((err, req, res, next) => {
     success: false,
     statusCode: err.status || 500,
     message: err.message || "Internal Server Error",
-    ...(isDev && { stack: err.stack }), // include stack trace in dev only
   });
 });
 
