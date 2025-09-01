@@ -18,5 +18,5 @@ app.use("/api/health", healthCheck);
 // END of API Routes
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Server listening on port http://localhost:${port}`);
 });
