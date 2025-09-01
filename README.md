@@ -12,7 +12,7 @@ A simple **Node.js + Express** starter project. This application provides a REST
 ---
 
 ## 📦 Features
-- REST API using Express.js
+- REST API
 - Environment variables via `.env`
 - CI/CD Integration using GitHub, Jenkins & Docker
 
