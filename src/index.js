@@ -15,8 +15,7 @@ app.use(cookieParser()); // Use Cookie Parser Middleware
 // API Routes
 app.use("/", welcome);
 app.use("/api/health", healthCheck);
-// END of API Routes
 
 app.listen(port, () => {
-  console.log(`Server listening on port http://localhost:${port}`);
+  console.log(`App running on http://localhost:${port}`);
 });
