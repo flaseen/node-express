@@ -20,16 +20,13 @@ app.use("/api/health", healthCheck);
 app.use((req, res, next) => {
   res.status(404).json({
     success: false,
-    error: {
-      message: "Not Found",
-    },
+    statusCode: 404,
+    message: "Not Found",
   });
 });
 
 // Error Handler (must be after all routes)
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-
   res.status(err.status || 500).json({
     success: false,
     error: {
