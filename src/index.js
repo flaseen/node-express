@@ -16,6 +16,19 @@ app.use(cookieParser()); // Use Cookie Parser Middleware
 app.use("/", welcome);
 app.use("/api/health", healthCheck);
 
+// Error Handler (must be after all routes)
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(err.status || 500).json({
+    success: false,
+    error: {
+      message: err.message || "Internal Server Error",
+      ...(isDev && { stack: err.stack }), // include stack trace in dev only
+    },
+  });
+});
+
 app.listen(port, () => {
   console.log(`App running on http://localhost:${port}`);
 });
