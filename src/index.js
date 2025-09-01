@@ -16,6 +16,16 @@ app.use(cookieParser()); // Use Cookie Parser Middleware
 app.use("/", welcome);
 app.use("/api/health", healthCheck);
 
+// 404 handler (must come after routes, before error handler)
+app.use((req, res, next) => {
+  res.status(404).json({
+    success: false,
+    error: {
+      message: "Not Found",
+    },
+  });
+});
+
 // Error Handler (must be after all routes)
 app.use((err, req, res, next) => {
   console.error(err.stack);
