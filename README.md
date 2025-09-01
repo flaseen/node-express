@@ -13,7 +13,7 @@ A simple **Node.js + Express** starter project. This application provides a REST
 
 ## 📦 Features
 - Express.js server
-- REST API example (`/api/health`)
+- REST API
 - Environment variables via `.env`
 - CI/CD Integration using GitHub, Jenkins & Docker
 
