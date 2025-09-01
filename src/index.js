@@ -29,10 +29,9 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     success: false,
-    error: {
-      message: err.message || "Internal Server Error",
-      ...(isDev && { stack: err.stack }), // include stack trace in dev only
-    },
+    statusCode: err.status || 500,
+    message: err.message || "Internal Server Error",
+    ...(isDev && { stack: err.stack }), // include stack trace in dev only
   });
 });
 
