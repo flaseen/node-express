@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/flaseen/node-express)](https://github.com/flaseen/node-express/issues)  
 [![GitHub stars](https://img.shields.io/github/stars/flaseen/node-express?style=social)](https://github.com/flaseen/node-express/stargazers)  
 
-A simple **Node.js + Express** starter project. This application provides a RESTful API and can be run locally or inside a Docker Container.
+A simple **Node.js + Express.js** starter project. This application provides a RESTful API and can be run locally or inside a Docker Container.
 
 ---
 
