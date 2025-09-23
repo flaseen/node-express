@@ -12,7 +12,7 @@ A simple **Node.js + Express.js** starter project. This application provides a R
 ---
 
 ## 📦 Features
-- RESTful API
+- Versioned RESTful API
 - Environment variables via `.env`
 - CI/CD Integration using GitHub, Jenkins & Docker
 
@@ -42,18 +42,20 @@ npm run dev
 
 ## 🌍 API Endpoints
 
-| Method | Endpoint       | Description           |
-|--------|---------------|-----------------------|
-| GET    | `/`           | Welcome message       |
-| GET    | `/api/health` | Health check endpoint |
+| Method | Endpoint         | Description               |
+|--------|------------------|---------------------------|
+| GET    | `/api/v1/`       | Welcome message           |
+| GET    | `/api/v1/health` | App Health check endpoint |
 
 ---
 
 ## ⚙️ Environment Variables
 Create a `.env` file in the project root:  
 ```env
-PORT=3000
+APP_PORT=3000
 NODE_ENV=development
+CLIENT_ORIGINS=http://localhost:3000,https://staging.example.com,https://app.example.com
+API_VERSION=v1
 ```
 
 ---

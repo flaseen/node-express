@@ -3,7 +3,7 @@ import { request, response } from "express";
 export const healthCheck = async (req = request, res = response) => {
   try {
     res.status(200).json({
-      status: "Ok",
+      status: "OK",
       success: true,
       statusCode: 200,
       message: "Server is healthy",
