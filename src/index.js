@@ -21,8 +21,8 @@ const apiVersion = process.env.API_VERSION || "v1";
 // App Level Middlewares
 app.use(helmet()); // Secure HTTP headers
 app.use(morgan("dev")); // HTTP request logger middleware
-app.use(express.json()); // Use JSON Body Parser Middleware
-app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded Body Parser Middleware
+app.use(express.json({ limit: "100mb" })); // Use JSON Body Parser Middleware
+app.use(express.urlencoded({ limit: "100mb", extended: true })); // x-www-form-urlencoded Body Parser Middleware
 app.use(cookieParser()); // Use Cookie Parser Middleware
 app.use(
   cors({
@@ -84,7 +84,7 @@ const shutdown = async (signal) => {
     // Close DB connections if any
     // await prisma.$disconnect();
     // console.log("Database connection closed.");
-    
+
     console.log("Cleanup complete. Exiting now.");
     process.exit(0);
   } catch (err) {
